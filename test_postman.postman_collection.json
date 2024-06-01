@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "3a64b4b6-3d78-4167-bdf0-12b4b65d3090",
+		"name": "test_postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34753794"
+	},
+	"item": [
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Tạo một số ngẫu nhiên trong khoảng từ 1 đến 1000\r",
+							"const randomNumber = Math.floor(Math.random() * 1000) + 1;\r",
+							"\r",
+							"// Gán giá trị cho biến \"name\"\r",
+							"const nameValue = \"Name\" + randomNumber;\r",
+							"\r",
+							"// Đặt biến \"name\" trong môi trường hiện tại\r",
+							"pm.environment.set(\"name\", nameValue);\r",
+							"\r",
+							"// Log ra giá trị của biến \"name\" để kiểm tra\r",
+							"console.log(\"Generated name:\", nameValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Tạo một số ngẫu nhiên trong khoảng từ 1 đến 1000",
+							"const randomNumber = Math.floor(Math.random() * 1000) + 1;",
+							"",
+							"// Gán giá trị cho biến \"name\"",
+							"const nameValue = \"Name\" + randomNumber;",
+							"",
+							"// Đặt biến \"name\" trong môi trường hiện tại",
+							"pm.environment.set(\"name\", nameValue);",
+							"",
+							"// Log ra giá trị của biến \"name\" để kiểm tra",
+							"console.log(\"Generated name:\", nameValue);",
+							"",
+							"pm.test(\"Response status code is 201\", function () {",
+							"    pm.expect(pm.response.code).to.equal(201);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields - name, job, id, and createdAt\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData).to.have.property('name');",
+							"  pm.expect(responseData).to.have.property('job');",
+							"  pm.expect(responseData).to.have.property('id');",
+							"  pm.expect(responseData).to.have.property('createdAt');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Name is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Job is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.job).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Job should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response time is less than 900ms\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(900);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"leader\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
